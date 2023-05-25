@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'DELETE') {
       const { currentUser } = await serverAuth(req, res);
 
-      const { movieId } = req.body;
+      const { movieId } = req.query as { movieId: string }; 
 
       const existingMovie = await prismadb.movie.findUnique({
         where: {
@@ -60,7 +60,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           favoriteIds: updatedFavoriteIds,
         }
       });
-      console.log("DELETE");
       return res.status(200).json(updatedUser);
     }
     
